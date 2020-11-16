@@ -194,7 +194,7 @@ index <- which(scale_vector==root)
 if (tone == "maj"){
 if (index > 3) root_relative_minor_scale <- index-3
 else root_relative_minor_scale <- index+9;
-if (index > 1 & index <=5){
+if (index > 2 & index <=5){
 key_tones <- c(index,index+4,index+7,index-1)
 } else if(index > 5 & index <= 8){
 key_tones <- c(index,index+4,index-5,index-1)
@@ -203,6 +203,24 @@ key_tones <- c(index,index-8,index-5,index-1)
 } else 
 key_tones <- c(index,index+4,index+7,index+11)
 }
+
+# #diatonic minor scale, get relative major and key chord tones
+# if (tone == "min"){
+#   if (index > 9){
+#     root_relative_major_scale <- index+3
+#     key_tones <- c(index,index-9,index-5,index-2)
+#   }else root_relative_major_scale <- index+3
+#   
+#   if (index > 1 & index <=5){
+#     key_tones <- c(index,index+3,index+7,index+10)
+#   }else if(index > 5 & index <= 8){
+#     key_tones <- c(index,index+3,index-5,index-2)
+#   }else 
+#     key_tones <- c(index,index+3,index+7,index-2);
+#   
+# }
+
+
 #Blues scale
 if (tone == "min"){
 if (index > 9) {
@@ -225,9 +243,9 @@ key_tones <- c(index,index+3,index-7,index-6, index-5, index-2)
 }
 #major scale, get relative minor and key chord tones
 if (tone == "dom"){
-  if (index > 3) root_relative_minor_scale <- index-3
-  else root_relative_minor_scale <- index+9;
-  if (index > 1 & index <=5){
+  if (index > 10) root_relative_minor_scale <- index-8
+  else root_relative_minor_scale <- index+2;
+  if (index >= 3 & index <=5){
     key_tones <- c(index,index+4,index+7,index-2)
   } else if(index > 5 & index <= 8){
     key_tones <- c(index,index+4,index-5,index-2)
@@ -293,15 +311,24 @@ while(sum_dur < (as.integer(struct[2]))) #while does not end section A keep gene
       while(sum_dur + aux_dur > beats_4[as.integer(struct[2])] || contador < 101){
           j <- round(rnorm(1,5.5,0.5))
           ###browser()
-          dur <- notes_per_beat[j]
+          
+          #dur <- notes_per_beat[j]
           #dur <- "eighth_note"
+          #dur <- notes_per_beat[6]
+          #"quarter_note"
+          dur <- notes_per_beat[4]
+          
           aux_dur <- get(dur)
           contador <- contador + 1
       }
       #browser()
       note_tone <- scale_vector[key_tones[i]] #note tone
       #dur <- notes_per_beat[j] #note duration
-      note_octave <- round(rnorm(1,4,0)) #pick note octave randomly around octave 4 (0 <=> no deviation)
+      
+      #note_octave <- round(runif(1,min=3,max=5)) #pick note octave randomly around octave 4 (0 <=> no deviation)
+      #note_octave <- round(runif(1,min=3,max=4)) #pick note octave randomly around octave 4 (0 <=> no deviation)
+      note_octave <- 4 #pick note octave randomly around octave 4 (0 <=> no deviation)
+      
       note <- paste(note_tone,note_octave, sep="") #complete note
       #browser()
       melody_df <- cbind(melody_df,c(note,dur,aux_dur,bar,beat)) #build dataframe with music notes and duration for further studies 
@@ -356,15 +383,24 @@ while(sum_dur < (as.integer(struct[2]))) #while does not end section A keep gene
   
       while(dur<(beats_2[bar]-sum_dur)||dur < (beats_4[bar]-sum_dur)){
         j <- round(rnorm(1,5.5,0.5))
-        dur <- notes_per_beat[j]
+        
+        #dur <- notes_per_beat[j]
         #dur <- "eighth_note"
+        #dur <- notes_per_beat[6]
+        #"quarter_note"
+        dur <- notes_per_beat[6]
+        
         aux_dur <- get(dur)
       }
       
       if (i!=length(approach.tones)+1)  
       {
       note_tone <- scale_vector[i]
-      note_octave <- round(rnorm(1,4,0))
+      
+      #note_octave <- round(runif(1,min=3,max=5)) #pick note octave randomly around octave 4 (0 <=> no deviation)
+      #note_octave <- round(runif(1,min=3,max=4)) #pick note octave randomly around octave 4 (0 <=> no deviation)
+      note_octave <- 4 #pick note octave randomly around octave 4 (0 <=> no deviation)
+      
       note <- paste(note_tone,note_octave,sep="")
       melody_df <- cbind(melody_df, c(note,dur,aux_dur,bar,beat))
       rownames(melody_df) = c("Tone","duration","dur value","bar","beat")
