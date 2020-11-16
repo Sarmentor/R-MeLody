@@ -1,7 +1,3 @@
-web page for sample sounds and melodies:
-
-https://myspace.com/portocarrerovspc/music/albums
-
 # R-MeLody
 - The purpose of this project is to provide means to generate automated melodies with R language. 
 - The melodies follow some melody construction theories and methods. 
